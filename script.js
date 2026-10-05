@@ -127,3 +127,35 @@ function animate() {
 
 initStars();
 animate();
+
+// 3D Hover Effect for Profile Image
+const heroImage = document.querySelector('.hero-image');
+const imageFrame = document.querySelector('.image-frame');
+
+if (heroImage && imageFrame) {
+    heroImage.addEventListener('mousemove', (e) => {
+        const rect = heroImage.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation based on mouse position
+        const rotateX = ((y - centerY) / centerY) * -15; // Max 15deg
+        const rotateY = ((x - centerX) / centerX) * 15;
+        
+        imageFrame.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    heroImage.addEventListener('mouseleave', () => {
+        // Reset to normal
+        imageFrame.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        imageFrame.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+
+    heroImage.addEventListener('mouseenter', () => {
+        // Remove transition to make movement instantly follow mouse
+        imageFrame.style.transition = 'transform 0.1s';
+    });
+}
