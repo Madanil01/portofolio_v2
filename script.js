@@ -62,11 +62,11 @@ class Star {
     constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        // Very small size for stars
-        this.size = Math.random() * 1.2 + 0.2;
-        // Extremely slow drift
-        this.speedX = (Math.random() - 0.5) * 0.1;
-        this.speedY = (Math.random() - 0.5) * 0.1;
+        // Make stars slightly larger so they are visible
+        this.size = Math.random() * 1.8 + 0.5;
+        // Slightly faster drift so movement is noticeable
+        this.speedX = (Math.random() - 0.5) * 0.25;
+        this.speedY = (Math.random() - 0.5) * 0.25;
         // Twinkle effect variables
         this.opacity = Math.random();
         this.fadeDir = Math.random() > 0.5 ? 1 : -1;
@@ -87,8 +87,8 @@ class Star {
 
         // Twinkle (fade in and out)
         this.opacity += this.fadeSpeed * this.fadeDir;
-        if (this.opacity >= 0.8) {
-            this.opacity = 0.8;
+        if (this.opacity >= 1) {
+            this.opacity = 1;
             this.fadeDir = -1;
         } else if (this.opacity <= 0.1) {
             this.opacity = 0.1;
