@@ -193,13 +193,20 @@ section {
     inset: 0;
     border-radius: 30px;
     padding: 1px;
-    background: var(--accent-gradient);
+    background: linear-gradient(60deg, transparent 20%, var(--accent-primary) 50%, transparent 80%);
+    background-size: 300% 300%;
     -webkit-mask: 
         linear-gradient(#fff 0 0) content-box, 
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    opacity: 0.5;
+    opacity: 0.8;
+    animation: shimmerBorder 3s infinite linear;
+}
+
+@keyframes shimmerBorder {
+    0% { background-position: 200% 50%; }
+    100% { background-position: -100% 50%; }
 }
 
 .image-frame img {
