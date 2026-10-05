@@ -41,12 +41,12 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// Interactive WebGL-like Particle Background using Canvas 2D
+// Subtle Galaxy Background using Canvas 2D
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 
 let width, height;
-let particles = [];
+let stars = [];
 
 function resize() {
     width = window.innerWidth;
@@ -58,76 +58,72 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
-class Particle {
+class Star {
     constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.opacity = Math.random() * 0.5 + 0.1;
+        // Very small size for stars
+        this.size = Math.random() * 1.2 + 0.2;
+        // Extremely slow drift
+        this.speedX = (Math.random() - 0.5) * 0.1;
+        this.speedY = (Math.random() - 0.5) * 0.1;
+        // Twinkle effect variables
+        this.opacity = Math.random();
+        this.fadeDir = Math.random() > 0.5 ? 1 : -1;
+        this.fadeSpeed = Math.random() * 0.005 + 0.002;
     }
 
     update() {
+        // Drift
         this.x += this.speedX;
         this.y += this.speedY;
 
+        // Wrap around screen
         if (this.x > width) this.x = 0;
         else if (this.x < 0) this.x = width;
         
         if (this.y > height) this.y = 0;
         else if (this.y < 0) this.y = height;
+
+        // Twinkle (fade in and out)
+        this.opacity += this.fadeSpeed * this.fadeDir;
+        if (this.opacity >= 0.8) {
+            this.opacity = 0.8;
+            this.fadeDir = -1;
+        } else if (this.opacity <= 0.1) {
+            this.opacity = 0.1;
+            this.fadeDir = 1;
+        }
     }
 
     draw() {
-        ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+        // Soft white/cyan color for stars
+        ctx.fillStyle = `rgba(226, 232, 240, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
-function initParticles() {
-    particles = [];
-    const particleCount = Math.min(Math.floor(width * height / 15000), 100);
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+function initStars() {
+    stars = [];
+    // Calculate number of stars based on screen size (not too crowded)
+    const starCount = Math.min(Math.floor(width * height / 5000), 250);
+    for (let i = 0; i < starCount; i++) {
+        stars.push(new Star());
     }
 }
-
-let mouseX = -1000;
-let mouseY = -1000;
-
-window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-});
 
 function animate() {
     ctx.clearRect(0, 0, width, height);
     
-    // Draw connections
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        
-        // Connect to mouse
-        const dx = mouseX - particles[i].x;
-        const dy = mouseY - particles[i].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        
-        if (dist < 150) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.2 * (1 - dist/150)})`;
-            ctx.lineWidth = 1;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(mouseX, mouseY);
-            ctx.stroke();
-        }
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].draw();
     }
     
     requestAnimationFrame(animate);
 }
 
-initParticles();
+initStars();
 animate();
