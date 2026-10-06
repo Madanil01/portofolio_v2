@@ -509,12 +509,48 @@ section {
     border: 2px solid var(--bg-dark);
 }
 
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
 .timeline-content .date {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--text-muted);
     margin-bottom: 0.8rem;
     display: inline-block;
+}
+
+.card-top .date {
+    margin-bottom: 0;
+}
+
+.role-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+}
+
+.current-badge {
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--accent-primary);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.freelance-badge {
+    background: rgba(129, 140, 248, 0.12);
+    color: var(--accent-secondary);
+    border: 1px solid rgba(129, 140, 248, 0.25);
 }
 
 .timeline-content h3 {
@@ -549,6 +585,155 @@ section {
     left: 0;
     color: var(--accent-secondary);
     font-size: 0.9em;
+}
+
+/* Grouped Company Card (Career Progression & Promotion) */
+.company-group-card {
+    position: relative;
+}
+
+.company-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.company-group-info .company-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.company-tenure {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: inline-block;
+}
+
+.progression-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-primary);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.progression-badge svg {
+    flex-shrink: 0;
+}
+
+.progression-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    position: relative;
+}
+
+.progression-item {
+    display: flex;
+    gap: 1.25rem;
+    position: relative;
+}
+
+.progression-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 16px;
+    flex-shrink: 0;
+    padding-top: 4px;
+}
+
+.progression-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.45;
+    border: 2px solid var(--bg-surface);
+    transition: all 0.3s ease;
+}
+
+.progression-dot.active {
+    width: 12px;
+    height: 12px;
+    background: var(--accent-primary);
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.55);
+    border: 2px solid var(--bg-surface);
+}
+
+.progression-line {
+    flex: 1;
+    width: 2px;
+    background: var(--timeline-line);
+    margin-top: 6px;
+    margin-bottom: -10px;
+    border-radius: 1px;
+}
+
+.progression-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.role-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.role-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.sub-role-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.role-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+}
+
+.promoted-tag {
+    background: rgba(129, 140, 248, 0.15);
+    color: var(--accent-secondary);
+    border: 1px solid rgba(129, 140, 248, 0.3);
+}
+
+.sub-date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
 /* Skills - Clean Tags */
@@ -700,4 +885,7 @@ footer {
     .timeline::before { left: 0; }
     .timeline-item { padding-left: 30px; }
     .timeline-dot { left: -5px; }
+    .company-group-header { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    .role-meta { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+    .progression-item { gap: 0.85rem; }
 }
