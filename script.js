@@ -97,8 +97,14 @@ class Star {
     }
 
     draw() {
-        // Soft white/cyan color for stars
-        ctx.fillStyle = `rgba(226, 232, 240, ${this.opacity})`;
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            // Soft luminous indigo/slate particles in light mode
+            ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity * 0.45})`;
+        } else {
+            // Soft white/cyan starlight in dark mode
+            ctx.fillStyle = `rgba(226, 232, 240, ${this.opacity})`;
+        }
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -157,5 +163,37 @@ if (heroImage && imageFrame) {
     heroImage.addEventListener('mouseenter', () => {
         // Remove transition to make movement instantly follow mouse
         imageFrame.style.transition = 'transform 0.1s';
+    });
+}
+
+// ============================================================================
+// 🌓 Theme Toggle Logic (Light / Dark Mode, Default: Dark)
+// ============================================================================
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+function getPreferredTheme() {
+    return localStorage.getItem('portfolio-theme') || 'dark';
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+
+    if (themeToggleBtn) {
+        const nextMode = theme === 'dark' ? 'light' : 'dark';
+        themeToggleBtn.setAttribute('aria-label', `Switch to ${nextMode} mode`);
+        themeToggleBtn.setAttribute('title', `Switch to ${nextMode} mode`);
+    }
+}
+
+// Ensure theme is applied on script execution (fallback to dark)
+const initialTheme = getPreferredTheme();
+setTheme(initialTheme);
+
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
     });
 }
